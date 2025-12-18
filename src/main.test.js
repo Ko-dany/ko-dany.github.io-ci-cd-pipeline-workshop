@@ -2,7 +2,7 @@ import { describe, it, expect } from "vitest";
 
 describe("Simple Test", () => {
   it("should pass basic math", () => {
-    expect(1 + 1).toBe(2);
+    expect(1 + 1).toBe(3);
   });
 
   it("should check if app title exists", () => {
