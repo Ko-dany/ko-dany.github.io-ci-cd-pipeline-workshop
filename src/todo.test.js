@@ -47,13 +47,13 @@ describe("TodoList", () => {
   });
 
   it("should filter active todos", () => {
-    list.add("Buy milk");
-    const todo2 = list.add("Walk dog");
-    list.toggle(todo2.id);
+    const todo1 = list.add("Buy milk");
+    list.add("Walk dog");
+    list.toggle(todo1.id);
 
     const active = list.getActive();
     expect(active.length).toBe(1);
-    expect(active[0].text).toBe("Buy milk");
+    expect(active[0].text).toBe("Walk dog");
   });
 
   it("should filter completed todos", () => {
