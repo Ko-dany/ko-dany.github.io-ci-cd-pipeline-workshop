@@ -1,0 +1,12 @@
+(function(){const t=document.createElement("link").relList;if(t&&t.supports&&t.supports("modulepreload"))return;for(const o of document.querySelectorAll('link[rel="modulepreload"]'))n(o);new MutationObserver(o=>{for(const i of o)if(i.type==="childList")for(const l of i.addedNodes)l.tagName==="LINK"&&l.rel==="modulepreload"&&n(l)}).observe(document,{childList:!0,subtree:!0});function s(o){const i={};return o.integrity&&(i.integrity=o.integrity),o.referrerPolicy&&(i.referrerPolicy=o.referrerPolicy),o.crossOrigin==="use-credentials"?i.credentials="include":o.crossOrigin==="anonymous"?i.credentials="omit":i.credentials="same-origin",i}function n(o){if(o.ep)return;o.ep=!0;const i=s(o);fetch(o.href,i)}})();class f{constructor(t,s=Date.now()){this.id=s,this.text=t,this.completed=!1}toggle(){this.completed=!this.completed}}class p{constructor(){this.items=[]}add(t){const s=new f(t);return this.items.push(s),s}remove(t){this.items=this.items.filter(s=>s.id!==t)}toggle(t){const s=this.items.find(n=>n.id===t);s&&s.toggle()}getAll(){return this.items}getActive(){return this.items.filter(t=>!t.completed)}getCompleted(){return this.items.filter(t=>t.completed)}}const r=new p,g=document.querySelector("#todo-form"),d=document.querySelector("#todo-input"),u=document.querySelector("#todo-list"),a=document.querySelectorAll(".filter-btn");let m="all";function c(){let e;switch(m){case"active":e=r.getActive();break;case"completed":e=r.getCompleted();break;default:e=r.getAll()}u.innerHTML=e.map(t=>`
+    <li class="todo-item ${t.completed?"completed":""}">
+      <input 
+        type="checkbox" 
+        ${t.completed?"checked":""}
+        data-id="${t.id}"
+        class="todo-checkbox"
+      >
+      <span class="todo-text">${t.text}</span>
+      <button class="delete-btn" data-id="${t.id}">Delete</button>
+    </li>
+  `).join(""),h()}function h(){const e=r.getActive().length,t=r.getAll().length;document.querySelector("#stats").textContent=`${e} of ${t} tasks remaining`}g.addEventListener("submit",e=>{e.preventDefault();const t=d.value.trim();t&&(r.add(t),d.value="",c())});u.addEventListener("click",e=>{const t=Number(e.target.dataset.id);e.target.classList.contains("delete-btn")?(r.remove(t),c()):e.target.classList.contains("todo-checkbox")&&(r.toggle(t),c())});a.forEach(e=>{e.addEventListener("click",()=>{a.forEach(t=>t.classList.remove("active")),e.classList.add("active"),m=e.dataset.filter,c()})});c();
